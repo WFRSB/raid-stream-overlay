@@ -2,120 +2,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="overlay.css"/>
-    <meta charset="utf-8" />
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-    <script>
-        var lastUpdate = 0;
-        var loadedData = [];
-        var username = '';
+	<link rel="stylesheet" href="overlay.css"/>
+	<meta charset="utf-8" />
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<script>
+		var lastUpdate = 0;
+		var loadedData = [];
+		var username = '';
 		var infoCount = 0;
 		
 		$.get("Info.txt", function(data) {
 			infoText = data.split('\n');
-			rand = Math.round(Math.random()*4);
+			if(username.length) infotext.push('Current streamer is ' + username + '!');
+			rand = Math.round(Math.random()*infoText.length);
 			$(".info").text(infoText[rand]).attr('data-content',infoText[rand]);
 		});
 
-        function updateData() {
-            if (lastUpdate + 30 * 1000 < $.now()) {
-                lastUpdate = $.now();
-                $.get("http://trialslive.azurewebsites.net/api/live/PC/" + username, function (data) {
+		function updateData() {
+			if (lastUpdate + 30 * 1000 < $.now()) {
+				lastUpdate = $.now();
+				$.get("http://trialslive.azurewebsites.net/api/live/PC/" + username, function (data) {
                     //$( ".result" ).html( data );
                     loadedData = data;
                 });
-            }
-        }
+			}
+		}
 
-        function updateTags() {
+		function updateTags() {
 			if (loadedData.length == 0){
 				$("#cont").attr('class', 'container hidden');
+				return;
 			}else{
 				$("#cont").attr('class', 'container');
 			}
-            if (loadedData.length === 0) {
-                return;
-            }
 			
-            var c = loadedData[0];
+			var c = loadedData.data.sort(function(a, b){
+				if (a.objective === b.objective) {
+					return 0;
+				}
+				if (a.objective === "VICTORY" || a.objective === "FAILED") {
+					return 1;
+				}
+				if (b.objective === "VICTORY" || b.objective === "FAILED") {
+					return a.leaderboardGenerated - b.leaderboardGenerated;
+				}
+				return 0;
+			})[0];
 
-            var leaderboardGenerated = Date.parse(c.leaderboardGenerated);
 
-            var currentTimeInSeconds = c.currentTimeInSeconds;
+			var leaderboardGenerated = Date.parse(c.leaderboardGenerated);
 
-            if (c.objective !== "VICTORY" && c.objective !== "FAILED") {
-                var raidStarted = new Date(leaderboardGenerated - c.currentTimeInSeconds * 1000);
-                var delta = (new Date() - raidStarted) / 1000;
-                currentTimeInSeconds = delta;
-            }
+			var currentTimeInSeconds = c.currentTimeInSeconds;
 
-            $('#Host').text(c.host.name).attr('data-content',c.host.name).addClass()
-            $('#Objective').text(c.objective).attr('data-content',c.objective);
-            $('#Time').text(SecondsTohhmmss(Math.round(currentTimeInSeconds))).attr('data-content',SecondsTohhmmss(Math.round(currentTimeInSeconds)));
-            $('#Kills').text(c.kills).attr('data-content',c.kills);
-            $('#Deaths').text(c.deaths).attr('data-content',c.deaths);
-            var players = c.players.map(function(p){
-                return p.name;
-            }).slice(1).join(", ");
-            $('#Players').text('Players: ' + players);
-            $('.progress').progressbar({
-                value: c.progressValue
-            });
+			if (c.objective !== "VICTORY" && c.objective !== "FAILED") {
+				var raidStarted = new Date(leaderboardGenerated - c.currentTimeInSeconds * 1000);
+				var delta = (new Date() - raidStarted) / 1000;
+				currentTimeInSeconds = delta;
+			}
+
+			$('#Host').text(c.host.name).attr('data-content',c.host.name).addClass()
+			$('#Objective').text(c.objective).attr('data-content',c.objective);
+			$('#Time').text(SecondsTohhmmss(Math.round(currentTimeInSeconds))).attr('data-content',SecondsTohhmmss(Math.round(currentTimeInSeconds)));
+			$('#Kills').text(c.kills).attr('data-content',c.kills);
+			$('#Deaths').text(c.deaths).attr('data-content',c.deaths);
+			var players = c.players.map(function(p){
+				return p.name;
+			}).slice(1).join(", ");
+			$('#Players').text('Players: ' + players);
+			$('.progress').progressbar({
+				value: c.progressValue
+			});
 			//c.progressValue < 100 ? $(".ui-progressbar-value").addClass("loading") : $(".ui-progressbar-value").removeClass("loading");
-        }
+		}
 
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
 		
 		function infoBox() {
 			$(".info").text(infoText[infoCount]).attr('data-content',infoText[infoCount]);
 			infoCount < infoText.length-1 ? infoCount++ : infoCount=0;
 		}
-        
-        var SecondsTohhmmss = function(totalSeconds) {
-            var hours   = Math.floor(totalSeconds / 3600);
-            var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
-            var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+		var SecondsTohhmmss = function(totalSeconds) {
+			var hours   = Math.floor(totalSeconds / 3600);
+			var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+			var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
 
             // round seconds
             seconds = Math.round(seconds * 100) / 100
 
             var result = (hours < 10 ? "0" + hours : hours);
-                result += ":" + (minutes < 10 ? "0" + minutes : minutes);
-                result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
+            result += ":" + (minutes < 10 ? "0" + minutes : minutes);
+            result += ":" + (seconds  < 10 ? "0" + seconds : seconds);
             return result;
         }
 
         $(document).ready(function () {
-            username = getParameterByName('username');
-            setInterval(updateTags, 250);
-            setInterval(updateData, 1000);
-			setInterval(infoBox, 15000);
+        	username = getParameterByName('username');
+        	setInterval(updateTags, 250);
+        	setInterval(updateData, 1000);
+        	setInterval(infoBox, 15000);
         });
-		setTimeout(function(){ 
-			document.getElementsByClassName("ui-progressbar-value")[0].appendChild(document.getElementsByClassName("load")[0]);
-		}, 2000);
+        setTimeout(function(){ 
+        	document.getElementsByClassName("ui-progressbar-value")[0].appendChild(document.getElementsByClassName("load")[0]);
+        }, 2000);
     </script>
 </head>
 <body>
 	<div class="load"></div>
-    <div id="cont" class="container hidden">
-        <div class="progress"></div>
-        <span id="Host" class="scroll textFormat"></span>
-        <span id="Time" class="scroll textFormat"></span>
-        <span id="Kills" class="scroll textFormat"></span>
-        <span id="Deaths" class="scroll textFormat"></span>
-        <span id="Objective" class="scroll textFormat"></span>
+	<div id="cont" class="container hidden">
+		<div class="progress"></div>
+		<span id="Host" class="scroll textFormat"></span>
+		<span id="Time" class="scroll textFormat"></span>
+		<span id="Kills" class="scroll textFormat"></span>
+		<span id="Deaths" class="scroll textFormat"></span>
+		<span id="Objective" class="scroll textFormat"></span>
 		<span class="info scroll textFormat"></span>
-    </div>
-    <p id="Players" style="display: none;"></p>
+	</div>
+	<p id="Players" style="display: none;"></p>
 </body>
 </html>
