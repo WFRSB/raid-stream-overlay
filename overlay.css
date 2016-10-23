@@ -1,0 +1,152 @@
+@font-face {
+    font-family: Caviar Dreams;
+    src: url("CaviarDreams_Bold.ttf");
+}
+@keyframes masked-animation {
+     0% {background-position: -1000px 0}
+     50% {background-position: 1000px 0}
+     100% {background-position: 1000px 0}
+}
+@keyframes move {
+	0% {
+		background-position: -250px 0;
+	}
+	100% {
+		background-position: 950px 0;
+	}
+}
+body{
+	margin: 0;
+	padding: 0;
+}
+.container{
+    position: relative;
+    height: 99px;
+    width: 800px;
+	margin: 0 auto;
+	padding: 0;
+    background-image: url(overlay.png);
+    font-family: Caviar Dreams;
+    transition: all 1s;
+}
+.hidden{
+	transform: translate(0, -55px);
+}
+.progress{
+    position: absolute;
+    left: 50px;
+	top: 50px;
+    height: 5px;
+    width: 700px;
+    background-color: rgba(0,0,0,0.2);
+	box-shadow:inset 1px 1px 0px 0 rgba(0, 0, 0, 0.5), 1px 1px 0px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 5px 5px;
+}
+.ui-progressbar-value{
+    height: 100%;
+    border-radius: 0 0 10px 10px;
+	background-color: #7289DA;
+    transition: all 1s;
+}
+.load{
+	position: relative;
+	height: 100%;
+    animation: masked-animation 5s ease-in-out infinite;
+    background-image: linear-gradient(-45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.67) 48%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.67) 52%, rgba(255,255,255,0) 100%);
+    background-position: -1000px 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+    display: block;
+	border-radius: 0 0 5px 5px;
+}
+.loading{
+	background-image: linear-gradient(45deg, rgba(114,137,218,1) 0%,rgba(119,151,255,1) 50%,rgba(91,111,175,1) 51%,rgba(114,137,218,1) 100%);
+	background-repeat: no-repeat;
+	background-size: 250px 5px;
+	animation: move 3s linear infinite;
+}
+#Host{
+    top: 24px;
+	left: 32px;
+    width: 155px;
+	height: 22px;
+}
+#Host::before{
+	animation-delay: 2.6s;
+	animation: masked-animation 10s ease-in-out infinite;
+	background-size: 400% 100%;
+}
+#Time{
+    top: 24px;
+	left: 193px;
+    width: 74px;
+	height: 22px;
+}
+#Time::before{
+	animation-delay: 4.8s;
+	animation: masked-animation 12s ease-in-out infinite;
+	background-size: 550% 100%;
+}
+#Objective{
+    top: 24px;
+	left: 272px;
+    width: 256px;
+	height: 22px;
+}
+#Objective::before{
+	animation-delay: 0;
+	animation: masked-animation 9s ease-in-out infinite;
+	background-size: 200% 100%;
+}
+#Deaths{
+    top: 24px;
+	left: 533px;
+    width: 108px;
+	height: 22px;
+}
+#Deaths::before{
+	animation-delay: 7.3s;
+	animation: masked-animation 11s ease-in-out infinite;
+	background-size: 450% 100%;
+}
+#Kills{
+    top: 24px;
+	left: 647px;
+    width: 119px;
+	height: 22px;
+}
+#Kills::before{
+	animation-delay: 5.3s;
+	animation: masked-animation 13s ease-in-out infinite;
+	background-size: 400% 100%;
+}
+.textFormat{
+	text-align: center;
+	font-weight: bold;
+    display: block;
+    color: rgba(153, 170, 181, .7);
+    position: absolute;
+}
+.info{
+    top: 59px;
+	left: 49px;
+    width: 701px;
+	height: 20px;
+}
+.info::before{
+	animation-delay: 8.2s;
+	animation: masked-animation 8s ease-in-out infinite;
+	background-size: 150% 100%;
+}
+.scroll::before{
+	position: absolute;
+	display: block;
+	content: attr(data-content);
+	width: 100%;
+	height: 100%;
+	color: rgba(0,0,0,0);
+	background-image: linear-gradient(-45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.67) 48%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.67) 52%, rgba(255,255,255,0) 100%);
+    background-repeat: no-repeat;
+	-webkit-background-clip: text;
+}
