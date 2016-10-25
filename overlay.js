@@ -1,7 +1,6 @@
 var lastUpdate = 0;
 var lastData = [];
-var trialDataURL = 'http://trialslive.azurewebsites.net/api/live/PC/';
-trialDataURL = 'https://86541c65-ac1b-42e0-8eaa-50c36511bceb.pub.cloud.scaleway.com/api/live/PC/';
+var trialDataURL = 'https://86541c65-ac1b-42e0-8eaa-50c36511bceb.pub.cloud.scaleway.com/api/live/PC/';
 var infoURL = 'Info.txt';
 
 function getInfoText(callback) {
@@ -60,11 +59,24 @@ function updateTags(username) {
     $('#Kills').text(c.kills).attr('data-content',c.kills);
     $('#Deaths').text(c.deaths).attr('data-content',c.deaths);
     $('#Players').text('Players: ' + players);
-    $('.progress').progressbar({
-      value: c.progressValue
-    });
+	$('.value').css('width', c.progressValue + '%');
     //c.progressValue < 100 ? $('.ui-progressbar-value').addClass('loading') : $('.ui-progressbar-value').removeClass('loading');
   });
+}
+
+function customColour(hexValue){
+	if (!hexValue) {
+		return
+	}
+	var selectDom = $('.host, .time, .objective, .deaths, .kills');
+	var progressC = $('.value');
+	var bigint = parseInt(hexValue, 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+	var rbg = 'rgb(' + r + ',' + g + ',' + b + ')'
+	selectDom.css('color', rbg);
+	progressC.css('background-color', rbg);
 }
 
 function getParameterByName(name, url) {
@@ -109,15 +121,10 @@ function setupInfoBox(username) {
 
 function onDocumentReady () {
   var username = getParameterByName('user', window.location.href);
+  var colour = getParameterByName('colour', window.location.href);
+  customColour(colour);
   setupInfoBox(username);
   setInterval(updateTags, 250, username);
-  setInterval(function () { 
-    var load = document.getElementsByClassName('load');
-    var progressBar = document.getElementsByClassName('ui-progressbar-value');
-    if(progressBar[0]) {
-        progressBar[0].appendChild(load[0]);
-    }
-  }, 2000);
 }
 
 $(document).ready(function(){onDocumentReady();});

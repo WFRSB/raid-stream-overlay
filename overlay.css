@@ -12,7 +12,7 @@
 		background-position: -250px 0;
 	}
 	100% {
-		background-position: 950px 0;
+		background-position: 1050px 0;
 	}
 }
 body{
@@ -22,7 +22,7 @@ body{
 .container{
     position: relative;
     height: 99px;
-    width: 800px;
+    width: 900px;
 	margin: 0 auto;
 	padding: 0;
     background-image: url(overlay.png);
@@ -37,12 +37,12 @@ body{
     left: 50px;
 	top: 50px;
     height: 5px;
-    width: 700px;
+    width: 800px;
     background-color: rgba(0,0,0,0.2);
 	box-shadow:inset 1px 1px 0px 0 rgba(0, 0, 0, 0.5), 1px 1px 0px 0 rgba(255, 255, 255, 0.1);
     border-radius: 0 0 5px 5px;
 }
-.ui-progressbar-value{
+.value{
     height: 100%;
     border-radius: 0 0 10px 10px;
 	background-color: #7289DA;
@@ -79,7 +79,7 @@ body{
 }
 #Time{
     top: 24px;
-	left: 193px;
+	left: 191px;
     width: 74px;
 	height: 22px;
 }
@@ -90,8 +90,8 @@ body{
 }
 #Objective{
     top: 24px;
-	left: 272px;
-    width: 256px;
+	left: 271px;
+    width: 360px;
 	height: 22px;
 }
 #Objective::before{
@@ -101,7 +101,7 @@ body{
 }
 #Deaths{
     top: 24px;
-	left: 533px;
+	left: 637px;
     width: 108px;
 	height: 22px;
 }
@@ -112,7 +112,7 @@ body{
 }
 #Kills{
     top: 24px;
-	left: 647px;
+	left: 751px;
     width: 119px;
 	height: 22px;
 }
@@ -121,6 +121,36 @@ body{
 	animation: masked-animation 13s ease-in-out infinite;
 	background-size: 400% 100%;
 }
+.host{
+    top: 0;
+	left: 83px;
+    width: 60px	;
+	height: 20px;
+}
+.time{
+    top: 0;
+	left: 201px;
+    width: 52px	;
+	height: 20px;
+}
+.objective{
+    top: 0;
+	left: 389px;
+    width: 122px	;
+	height: 20px;
+}
+.deaths{
+    top: 0;
+	left: 650px;
+    width: 83px	;
+	height: 20px;
+}
+.kills{
+    top: 0;
+	left: 782px;
+    width: 58px	;
+	height: 20px;
+}
 .textFormat{
 	text-align: center;
 	font-weight: bold;
@@ -128,10 +158,18 @@ body{
     color: rgba(153, 170, 181, .7);
     position: absolute;
 }
+.titleFormat{
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+    color: #7289da;
+    position: absolute;
+	text-shadow: 1px 1px rgba(0,0,0,0.4);
+}
 .info{
     top: 59px;
-	left: 49px;
-    width: 701px;
+	left: 51px;
+    width: 799px;
 	height: 20px;
 }
 .info::before{
