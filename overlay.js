@@ -27,7 +27,7 @@ function updateTags(username) {
     }
 
     $('#cont').attr('class', 'container');
-    var c = raidData.data.sort(function (a, b) {
+    var c = raidData.sort(function (a, b) {
       if (a.objective === b.objective) {
         return 0;
       }
@@ -79,7 +79,7 @@ function updateInfoBox(text) {
   $('.info').text(text).attr('data-content', text);
 }
 
-var secondsTohhmmss = function(totalSeconds) {
+var SecondsTohhmmss = function(totalSeconds) {
   var hours   = Math.floor(totalSeconds / 3600);
   var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
   var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
@@ -110,9 +110,13 @@ function onDocumentReady () {
   var username = getParameterByName('user', window.location.href);
   setupInfoBox(username);
   setInterval(updateTags, 250, username);
-  setTimeout(function () { 
-    document.getElementsByClassName('ui-progressbar-value')[0].appendChild(document.getElementsByClassName('load')[0]);
+  setInterval(function () { 
+    var load = document.getElementsByClassName('load');
+    var progressBar = document.getElementsByClassName('ui-progressbar-value');
+    if(progressBar[0]) {
+        progressBar[0].appendChild(load[0]);
+    }
   }, 2000);
 }
 
-$(document).ready(onDocumentReady);
+$(document).ready(function(){onDocumentReady();});
