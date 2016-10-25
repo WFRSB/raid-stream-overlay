@@ -1,7 +1,7 @@
 var lastUpdate = 0;
 var lastData = [];
 var trialDataURL = 'http://trialslive.azurewebsites.net/api/live/PC/';
-trialDataURL = 'https://86541c65-ac1b-42e0-8eaa-50c36511bceb.pub.cloud.scaleway.com/api/live/PC';
+trialDataURL = 'https://86541c65-ac1b-42e0-8eaa-50c36511bceb.pub.cloud.scaleway.com/api/live/PC/';
 var infoURL = 'Info.txt';
 
 function getInfoText(callback) {
