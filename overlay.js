@@ -5,7 +5,8 @@ var infoURL = 'Info.txt';
 
 function getInfoText(callback) {
   $.get(infoURL, function(data) {
-    callback(data.split('\n'));
+    var nonEmptyLines = data.split('\n').filter(function(n){ return n != undefined && n.length > 0 });
+    callback(nonEmptyLines);
   });
 }
 
