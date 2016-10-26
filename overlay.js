@@ -54,7 +54,7 @@ function updateTags(username) {
       return p.name;
     }).slice(1).join(', ');
 
-    $('#Host').text(c.host.name).attr('data-content',c.host.name).addClass()
+    $('#Host').text(c.host.name).attr('data-content',c.host.name);
     $('#Objective').text(c.objective).attr('data-content',c.objective);
     $('#Time').text(SecondsTohhmmss(Math.round(currentTimeInSeconds))).attr('data-content',SecondsTohhmmss(Math.round(currentTimeInSeconds)));
     $('#Kills').text(c.kills).attr('data-content',c.kills);
