@@ -111,7 +111,7 @@ function setupInfoBox(username) {
   getInfoText(function (infoText) {
     if(username && username.length) infoText.push('Current streamer is ' + username + '!');
 
-    var infoCount = Math.round(Math.random() * infoText.length);
+    var infoCount = Math.round(Math.random() * (infoText.length - 1));
     updateInfoBox(infoText[infoCount]);
     setInterval(function () {
       updateInfoBox(infoText[infoCount]);
