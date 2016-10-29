@@ -127,11 +127,21 @@ body{
     width: 60px	;
 	height: 20px;
 }
+.host::before{
+	animation-delay: 1.2s;
+	animation: masked-animation 8s ease-in-out infinite;
+	background-size: 400% 100%;
+}
 .time{
     top: 0;
 	left: 201px;
     width: 52px	;
 	height: 20px;
+}
+.time::before{
+	animation-delay: 8.1s;
+	animation: masked-animation 12.2s ease-in-out infinite;
+	background-size: 400% 100%;
 }
 .objective{
     top: 0;
@@ -139,17 +149,32 @@ body{
     width: 122px	;
 	height: 20px;
 }
+.objective::before{
+	animation-delay: 5s;
+	animation: masked-animation 10.5s ease-in-out infinite;
+	background-size: 400% 100%;
+}
 .deaths{
     top: 0;
 	left: 650px;
     width: 83px	;
 	height: 20px;
 }
+.deaths::before{
+	animation-delay: 6.3s;
+	animation: masked-animation 8.6s ease-in-out infinite;
+	background-size: 400% 100%;
+}
 .kills{
     top: 0;
 	left: 782px;
     width: 58px	;
 	height: 20px;
+}
+.kills::before{
+	animation-delay: 9s;
+	animation: masked-animation 9.4s ease-in-out infinite;
+	background-size: 400% 100%;
 }
 .textFormat{
 	text-align: center;
@@ -187,4 +212,5 @@ body{
 	background-image: linear-gradient(-45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.67) 48%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.67) 52%, rgba(255,255,255,0) 100%);
     background-repeat: no-repeat;
 	-webkit-background-clip: text;
+	text-shadow: 0 0 rgba(0,0,0,0);
 }
