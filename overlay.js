@@ -1,5 +1,4 @@
 var lastUpdate = 0;
-var trialDataURL = 'https://86541c65-ac1b-42e0-8eaa-50c36511bceb.pub.cloud.scaleway.com/api/live/PC/';
 var lastData = [];
 var infoURL = 'Info.txt';
 
@@ -13,7 +12,7 @@ function getInfoText(callback) {
 function getRaidData(platform, username, callback) {
   if (lastUpdate + 20 * 1000 < $.now()) {
     lastUpdate = $.now();
-    return $.get('https://api.trials.wf/api/player/' + platform + '/' + username + '/1', function (data) {
+    return $.get('https://api.trials.wf/api/player/' + platform + '/' + username + '/latest/1', function (data) {
       lastData = data;
       callback(data);
     });
