@@ -35,7 +35,6 @@ function updateTags(platform, username) {
       return $('#cont').attr('class', 'container hidden');
     }
 
-    $('#cont').attr('class', 'container');
     var c = raidData.sort(function (a, b) {
       if (a.objective === b.objective) {
         return 0;
@@ -50,6 +49,13 @@ function updateTags(platform, username) {
     })[0];
 
     var leaderboardGenerated = Date.parse(c.leaderboardGenerated);
+
+    if (Date.now() - leaderboardGenerated > 300000) {
+      return $('#cont').attr('class', 'container hidden');
+    }
+
+    $('#cont').attr('class', 'container');
+
     var currentTimeInSeconds = timeToSeconds(c.time);
 
     if (c.objective !== 'VICTORY' && c.objective !== 'FAILED') {
