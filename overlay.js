@@ -50,7 +50,7 @@ function updateTags(platform, username) {
 
     var leaderboardGenerated = Date.parse(c.leaderboardGenerated);
 
-    if (Date.now() - leaderboardGenerated > 600000) {
+    if (Date.now() - leaderboardGenerated > 300000) {
       return $('#cont').attr('class', 'container hidden');
     }
 
