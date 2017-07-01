@@ -2,10 +2,17 @@ var lastUpdate = 0;
 var lastData = [];
 var infoURL = 'Info.txt';
 
-function getInfoText(callback) {
-  $.get(infoURL, function (data) {
-    var nonEmptyLines = data.split('\n').filter(function (n) { return n != undefined && n.length > 0 });
-    callback(nonEmptyLines);
+function getInfoText(username, callback) {
+  $.get(`${username !== null && typeof username !== 'undefined' ? username : 'Info'}.txt`, function(data) {
+    if(data !== null && typeof data !== 'undefined') {
+      var nonEmptyLines = data.split('\n').filter(function(n){ return n != undefined && n.length > 0 });
+      callback(nonEmptyLines);
+    } else {
+      $.get(infoURL, function(data) {
+        var nonEmptyLines = data.split('\n').filter(function(n){ return n != undefined && n.length > 0 });
+        callback(nonEmptyLines);
+      });
+    }
   });
 }
 
@@ -119,16 +126,16 @@ var SecondsTohhmmss = function (totalSeconds) {
   return result;
 }
 
-function setupInfoBox(username) {
-  getInfoText(function (infoText) {
-    if (username && username.length) infoText.push('Current streamer is ' + username + '!');
+function setupInfoBox(username, cycleTime) {
+  getInfoText(username, function (infoText) {
+    if(username && username.length) infoText.push('Current streamer is ' + username + '!');
 
     var infoCount = Math.round(Math.random() * (infoText.length - 1));
     updateInfoBox(infoText[infoCount]);
     setInterval(function () {
       updateInfoBox(infoText[infoCount]);
       infoCount = (infoCount + 1) % infoText.length;
-    }, 15000);
+    }, cycleTime);
   });
 }
 
@@ -136,9 +143,10 @@ function onDocumentReady() {
   var username = getParameterByName('user', window.location.href);
   var colour = getParameterByName('colour', window.location.href);
   var platform = getParameterByName('platform', window.location.href) || "pc";
+  var cycleTime = getParameterByName('cycleTime', window.location.href) || 15000;
   customColour(colour);
-  setupInfoBox(username);
-  setInterval(updateTags, 250, platform, username);
+  setupInfoBox(username, cycleTime);
+  setInterval(updateTags, 250, username);
 }
 
 $(document).ready(function () { onDocumentReady(); });
