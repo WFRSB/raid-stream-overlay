@@ -110,30 +110,31 @@ var SecondsTohhmmss = function (totalSeconds) {
   return result;
 }
 
-function setupInfoBox(username, infoText) {
+function setupInfoBox(username, infoText, cycleTime) {
   var infoCount = Math.round(Math.random() * (infoText.length - 1));
   updateInfoBox(infoText[infoCount]);
   setInterval(function () {
   updateInfoBox(infoText[infoCount]);
   infoCount = (infoCount + 1) % infoText.length;
-  }, 15000);
+  }, cycleTime);
 }
 
 function onDocumentReady() {
   const params = new URLSearchParams(document.location.search.substring(1));
   const username = params.get('user');
-  const colour = params.get('colour');
+  const colour = params.get('color') || params.get('colour');
   const platform = params.get('platform') || 'pc';
   const text = params.getAll('text');
+  const cycleTime = params.get('cycleTime') || 15000;
 
   customColour(colour);
 
   if (text.length == 0) {
   getInfoText(function(infoText) {
-    setupInfoBox(username, infoText);
+    setupInfoBox(username, infoText, cycleTime);
   });
   } else {
-  setupInfoBox(username, text);
+  setupInfoBox(username, text, cycleTime);
   }
 
   setInterval(updateTags, 250, platform, username);
