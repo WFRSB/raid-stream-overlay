@@ -125,7 +125,7 @@ function onDocumentReady() {
   const colour = params.get('color') || params.get('colour');
   const platform = params.get('platform') || 'pc';
   const text = params.getAll('text');
-  const cycleTime = params.get('cycleTime') || 15000;
+  const cycleTime = params.get('cycleTime') || 3000;
 
   customColour(colour);
 
